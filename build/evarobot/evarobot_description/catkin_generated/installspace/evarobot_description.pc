@@ -1,0 +1,8 @@
+prefix=/home/gurvinder/assign1/install
+
+Name: evarobot_description
+Description: Description of evarobot_description
+Version: 0.0.7
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

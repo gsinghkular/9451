@@ -1,0 +1,2 @@
+cpmr_apb_q1:cpmr_apb_q2:cpmr_apb_q3:cpmr_apb_q4:cpmr_apb_q5:evarobot/evarobot:evarobot/evarobot_description:evarobot/evarobot_navigation:evarobot/evarobot_simulation:evarobot/evarobot_slam
+-DCATKIN_DEVEL_PREFIX=/home/gurvinder/assign1/devel -DCMAKE_INSTALL_PREFIX=/home/gurvinder/assign1/install -G Unix Makefiles

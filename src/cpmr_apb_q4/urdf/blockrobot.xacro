@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<robot name="block_robot_xacro" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:property name="baselink_mass" value="4.5" />
+  <xacro:property name="baselink_height" value="0.05" />
+  <xacro:property name="baselink_width" value="0.1" />
+  <xacro:property name="baselink_depth" value="0.1" />
+
+  <xacro:property name="laserlink_mass" value="0.01" />
+  <xacro:property name="laserlink_length" value="0.05" />
+  <xacro:property name="laserlink_radius" value="0.05" />
+
+  <xacro:macro name="material" params="name color">
+    <material name="${name}">
+      <color rgba="${color}"/>
+    </material>
+  </xacro:macro>
+  <xacro:macro name="link_shape" params="name material mass *shape *my_inertia">
+    <link name="${name}">
+      <visual>
+        <geometry>
+          <xacro:insert_block name="shape" />
+        </geometry>
+        <material name="${material}"></material>
+      </visual>
+      <collision>
+        <geometry>
+          <xacro:insert_block name="shape" />
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="${mass}" />
+        <xacro:insert_block name="my_inertia" />
+      </inertial>
+    </link>
+  </xacro:macro>
+  <xacro:macro name="fixed_joint" params="name parent_link child_link origin_xyz">
+    <joint name="${name}" type="fixed">
+      <origin xyz="${origin_xyz}" rpy="0.0 0.0 0.0" />
+      <parent link="${parent_link}" />
+      <child link="${child_link}" />
+      <axis xyz="0 0 1" />
+    </joint>
+  </xacro:macro>
+
+  <xacro:material name="red" color="1 0 0 1" />
+  <xacro:material name="green" color="0 1 0 1"/>
+
+  <link name="base_footprint">
+  </link>
+
+  <gazebo reference="base_link">
+    <material>Gazebo/Green</material>
+  </gazebo>
+  <xacro:link_shape name="base_link" material="green" mass="${baselink_mass}">
+    <box size="${baselink_width} ${baselink_depth} ${baselink_height}" />
+    <inertia 
+    ixx="${1/12 * baselink_mass * (baselink_height*baselink_height + baselink_depth*baselink_depth)}" 
+    iyy="${1/12 * baselink_mass * (baselink_height*baselink_height + baselink_width*baselink_width)}" 
+    izz="${1/12 * baselink_mass * (baselink_width*baselink_width + baselink_depth*baselink_depth)}" 
+    ixy="0" ixz="0" iyz="0" />
+  </xacro:link_shape>
+
+  <gazebo reference="laser_link">
+    <material>Gazebo/Red</material>
+  </gazebo>
+  <xacro:link_shape name="laser_link" material="red" mass="${laserlink_mass}">
+    <cylinder length="${laserlink_length}" radius="${laserlink_radius}" />
+    <inertia 
+    ixx="${1/12 * laserlink_mass * (laserlink_length * laserlink_length) + 1/4 * laserlink_mass * (laserlink_radius * laserlink_radius)}" 
+    iyy="${1/12 * laserlink_mass * (laserlink_length * laserlink_length) + 1/4 * laserlink_mass * (laserlink_radius * laserlink_radius)}" 
+    izz="${1/2 * laserlink_mass * (laserlink_radius * laserlink_radius)}" 
+    ixy="0" ixz="0" iyz="0" />
+  </xacro:link_shape>
+
+  <xacro:fixed_joint name="base_joint" origin_xyz=".0 0.0 0.025" parent_link="base_footprint" child_link="base_link" />
+  <xacro:fixed_joint name="laser_joint" origin_xyz="0.0 0.0 0.05" parent_link="base_link" child_link="laser_link" />
+
+  <xacro:include filename="$(find cpmr_apb_q4)/urdf/plugins.xacro"/>
+</robot>

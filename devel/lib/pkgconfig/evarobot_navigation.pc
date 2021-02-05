@@ -1,0 +1,8 @@
+prefix=/home/gurvinder/assign1/devel
+
+Name: evarobot_navigation
+Description: Description of evarobot_navigation
+Version: 0.0.7
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

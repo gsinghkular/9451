@@ -1,0 +1,8 @@
+prefix=/home/gurvinder/assign1/devel
+
+Name: cpmr_apb_q4
+Description: Description of cpmr_apb_q4
+Version: 1.0.1
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

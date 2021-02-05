@@ -1,0 +1,1 @@
+Robot description is spawned from the evarobot package
